@@ -38,7 +38,6 @@ void TextInput()
     {
         Console.WriteLine(sr.ReadToEnd());
     }
-        Console.WriteLine();
     Console.Write(buffer.ToString());
     while (true)
     {
@@ -64,7 +63,8 @@ bool SaveFile(out string message, bool saveAs = false)
     if (canSave)
     {
         using StreamWriter sw = new StreamWriter(path, true);
-        sw.WriteLine(buffer.ToString());
+        sw.Write(buffer.ToString());
+        buffer.Clear();
         message = $"Файл {path} сохранен";
         currentFile = path;
         return true;
