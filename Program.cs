@@ -78,6 +78,7 @@ bool SaveFile(out string message, bool saveAs = false)
                 return false;
             }
         }
+        
         try
         {
             sw.Write(buffer.ToString());
