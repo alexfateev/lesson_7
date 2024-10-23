@@ -36,7 +36,7 @@ void TextInput()
     Console.WriteLine("------------------------------------------");
     using (StreamReader sr = new StreamReader(currentFile))
     {
-        Console.WriteLine(sr.ReadToEnd());
+        Console.Write(sr.ReadToEnd());
     }
     Console.Write(buffer.ToString());
     while (true)
@@ -63,6 +63,11 @@ bool SaveFile(out string message, bool saveAs = false)
     if (canSave)
     {
         using StreamWriter sw = new StreamWriter(path, true);
+        if (!currentFile.Equals("Не указан"))
+        {
+            using StreamReader sr = new StreamReader(currentFile);
+            sw.Write(sr.ReadToEnd());
+        }
         sw.Write(buffer.ToString());
         buffer.Clear();
         message = $"Файл {path} сохранен";
@@ -74,7 +79,6 @@ bool SaveFile(out string message, bool saveAs = false)
         return false;
     }
 }
-
 
 bool SelectFile(out string? path, out string message)
 {
