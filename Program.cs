@@ -23,11 +23,10 @@ void ShowMenu()
     Console.Write("Выберите действие: ");
     var res = int.TryParse(Console.ReadLine(), out int number);
     if (number == 0) TextInput();
-    if (number == 1)
-        if (CreateFile(out string? path, out message)) currentFile = path;
+    if (number == 1) if (CreateFile(out string? path, out message)) currentFile = path;
     if (number == 2) if (SelectFile(out string? path)) currentFile = path;
-    if (number == 3) SaveCurrentFile(out message);
-    if (number == 4) SaveCurrentFile(out message, true);
+    if (number == 3) SaveFile(out message);
+    if (number == 4) SaveFile(out message, true);
 }
 
 void TextInput()
@@ -49,7 +48,7 @@ void TextInput()
     }
 }
 
-bool SaveCurrentFile(out string message, bool saveAs = false)
+bool SaveFile(out string message, bool saveAs = false)
 {
     message = "";
     bool canSave = true;
