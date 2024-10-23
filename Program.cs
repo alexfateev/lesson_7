@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 string? currentFile = "Не указан";
-string message = "";
+string? message = "";
 StringBuilder buffer = new StringBuilder();
 
 while (true)
@@ -34,14 +34,16 @@ void TextInput()
     Console.Clear();
     Console.WriteLine("Для завершения ввода введите !Q");
     Console.WriteLine("------------------------------------------");
-    using (StreamReader sr = new StreamReader(currentFile))
-    {
-        Console.Write(sr.ReadToEnd());
+    if (!currentFile.Equals("Не указан")) {
+        using (StreamReader sr = new StreamReader(currentFile))
+        {
+            Console.Write(sr.ReadToEnd());
+        }
     }
     Console.Write(buffer.ToString());
     while (true)
     {
-        var text = Console.ReadLine();
+        string? text = Console.ReadLine();
         if (text.Equals("!Q")) break;
         buffer.Append($"{text}\n");
     }
