@@ -51,7 +51,6 @@ void TextInput()
 
 bool SaveFile(out string message, bool saveAs = false)
 {
-    message = "";
     bool canSave = true;
     string? path;
     if (!saveAs) path = currentFile;
@@ -65,19 +64,37 @@ bool SaveFile(out string message, bool saveAs = false)
     if (canSave)
     {
         using StreamWriter sw = new StreamWriter(path, true);
+        //Если указан какой-то текущий файл, то сохраняем данные из него, а потом из буфера
         if (!currentFile.Equals("Не указан"))
         {
-            using StreamReader sr = new StreamReader(currentFile);
-            sw.Write(sr.ReadToEnd());
+            try
+            {
+                using StreamReader sr = new StreamReader(currentFile);
+                sw.Write(sr.ReadToEnd());
+            }
+            catch (Exception ex)
+            {
+                message = $"Ошибка чтения исходного файла. {ex.Message}";
+                return false;
+            }
         }
-        sw.Write(buffer.ToString());
-        buffer.Clear();
-        message = $"Файл {path} сохранен";
-        currentFile = path;
-        return true;
+        try
+        {
+            sw.Write(buffer.ToString());
+            buffer.Clear();
+            message = $"Файл {path} сохранен";
+            currentFile = path;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            message = $"Ошибка сохранения в файл. {ex.Message}";
+            return false;
+        }
     }
     else
     {
+        message = "Отмена сохранения файла";
         return false;
     }
 }
