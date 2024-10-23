@@ -64,7 +64,7 @@ bool SaveFile(out string message, bool saveAs = false)
     if (canSave)
     {
         using StreamWriter sw = new StreamWriter(path, true);
-        //Если указан какой-то текущий файл, то сохраняем данные из него, а потом из буфера
+        //При выполнениие команды Сохранить как, если указан какой-то текущий файл, то сохраняем данные из него, а потом из буфера
         if (!currentFile.Equals("Не указан") && saveAs)
         {
             try
