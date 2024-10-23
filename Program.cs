@@ -19,12 +19,12 @@ void ShowMenu()
     message = "";
     Console.WriteLine("----------------------------------------------------------------");
 
-    Console.WriteLine($"0. Ввести текст\n1. Создать файл\n2. Открыть файл\n3. Сохранить\n4. Сохранить как");
+    Console.WriteLine($"0. Ввести текст\n1. Создать файл\n2. Выбрать файл\n3. Сохранить\n4. Сохранить как");
     Console.Write("Выберите действие: ");
     var res = int.TryParse(Console.ReadLine(), out int number);
     if (number == 0) TextInput();
     if (number == 1) if (CreateFile(out string? path, out message)) currentFile = path;
-    if (number == 2) if (SelectFile(out string? path)) currentFile = path;
+    if (number == 2) if (SelectFile(out string? path, out message)) currentFile = path;
     if (number == 3) SaveFile(out message);
     if (number == 4) SaveFile(out message, true);
 }
@@ -76,9 +76,10 @@ bool SaveFile(out string message, bool saveAs = false)
 }
 
 
-bool SelectFile(out string? path)
+bool SelectFile(out string? path, out string message)
 {
     Console.Clear();
+    message = "Файл не выбран";
     path = "Не указан";
     string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt");
     for (int i = 0; i < files.Length; i++)
@@ -94,6 +95,7 @@ bool SelectFile(out string? path)
         {
             FileInfo fi = new FileInfo(files[number]);
             path = fi.Name;
+            message = $"Выбран файл {path}";
             return true;
         }
         else return false;
